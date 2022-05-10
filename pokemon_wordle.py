@@ -26,8 +26,7 @@ def main(poke_list):
 
     # 対話インタフェース
     cl.init(autoreset=True)
-    guide()
-    print("quit: 終了\n")
+    print("quit: 終了, help: ゲームのルールを表示\n")
     answer = ""
     count = 0
     while answer != target["name"]:
@@ -36,6 +35,8 @@ def main(poke_list):
         if answer == "quit":
             print("正解は{}でした。".format(target["name"]))
             return
+        elif answer == "help":
+            guide()
         elif len(answer) != 5:
             print("回答は5文字で入力してください。")
         else:
