@@ -31,7 +31,6 @@ def main(poke_list):
     answer = ""
     count = 0
     while answer != target["name"]:
-        count += 1
         answer = input("> ")
         if answer == "quit":
             print("正解は{}でした。".format(target["name"]))
@@ -39,6 +38,7 @@ def main(poke_list):
         elif len(answer) != 5:
             print("回答は5文字で入力してください。")
         else:
+            count += 1
             judge(target["name"], answer)
     print("\n{}手目で正解！".format(count))
 
