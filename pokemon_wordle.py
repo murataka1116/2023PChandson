@@ -104,6 +104,20 @@ def judge(target, answer):
     print()
 
 
+def call_ai(poke_list):
+    """Make computer player to answer.
+    AIに回答させる。
+
+    Args:
+        poke_list (list): ポケモンのリスト
+
+    Returns:
+        str: 回答
+    """
+    choiced = random.choice(poke_list)
+    return choiced[0]
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="5文字のポケモンの名前を当てるゲームです！")
     parser.add_argument("list", type=str, help="ポケモンのリスト (csvファイルのパス)")
