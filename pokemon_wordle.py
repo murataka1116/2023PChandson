@@ -26,20 +26,19 @@ def main(poke_list):
 
     # 対話インタフェース
     cl.init(autoreset=True)
-    print("quit: 終了, help: ゲームのルールを表示\n")
+    guide()
+    print("quit: 終了\n")
     answer = ""
     count = 0
     while answer != target["name"]:
+        count += 1
         answer = input("> ")
         if answer == "quit":
             print("正解は{}でした。".format(target["name"]))
             return
-        elif answer == "help":
-            guide()
         elif len(answer) != 5:
             print("回答は5文字で入力してください。")
         else:
-            count += 1
             judge(target["name"], answer)
     print("\n{}手目で正解！".format(count))
 
@@ -103,21 +102,6 @@ def judge(target, answer):
         else:
             print(cl.Fore.WHITE + "・", end="")
     print()
-
-
-def call_ai(poke_list):
-    """Make computer player to answer.
-    AIに回答させる。
-
-    Args:
-        poke_list (list): ポケモンのリスト
-
-    Returns:
-        str: 回答
-    """
-    choiced = random.choice(poke_list)
-    return choiced[0]
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="5文字のポケモンの名前を当てるゲームです！")
