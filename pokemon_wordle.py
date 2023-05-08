@@ -22,7 +22,6 @@ def main(poke_list):
         "type_01": choiced[1],
         "type_02": choiced[2],
     }
-    print(target)
 
     # 対話インタフェース
     cl.init(autoreset=True)
