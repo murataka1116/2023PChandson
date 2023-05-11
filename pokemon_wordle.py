@@ -6,7 +6,7 @@ import csv
 import random
 
 
-def main(poke_list):
+def main(poke_list,is_debug):
     """Main tasks.
 
     Args:
@@ -25,6 +25,8 @@ def main(poke_list):
 
     # 対話インタフェース
     cl.init(autoreset=True)
+    if is_debug :
+        print(target)
     print("help: ゲームのルールを表示する。\n")
     print("ai: AIに回答させる。\n")
     print("quit: 終了\n")
@@ -122,6 +124,7 @@ def judge(target, answer):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="5文字のポケモンの名前を当てるゲームです！")
     parser.add_argument("list", type=str, help="ポケモンのリスト (csvファイルのパス)")
+    parser.add_argument("--debug", action="store_true", help="デバッグモードで実行する")
     args = parser.parse_args()
-    main(args.list)
+    main(args.list,args.debug)
 
