@@ -25,7 +25,8 @@ def main(poke_list):
 
     # 対話インタフェース
     cl.init(autoreset=True)
-    guide()
+    print("help: ゲームのルールを表示する。\n")
+    print("ai: AIに回答させる。\n")
     print("quit: 終了\n")
     answer = ""
     count = 0
@@ -34,6 +35,8 @@ def main(poke_list):
         if answer == "quit":
             print("正解は{}でした。".format(target["name"]))
             return
+        elif answer == "help":
+            guide()
         elif answer == "ai":
             count += 1
             judge(target["name"], call_ai(pokemons))
