@@ -30,8 +30,10 @@ def main(poke_list,is_debug,is_vs):
         print(target)
     print("help: ゲームのルールを表示する。\n")
     print("ai: AIに回答させる。\n")
+    print("hint: ヒントとして正解のポケモンのタイプを表示する。\n")
     print("quit: 終了\n")
     answer = ""
+    hint_count = 0 
     if is_vs:
         is_game_quit = False
         is_player_turn = False
@@ -47,6 +49,10 @@ def main(poke_list,is_debug,is_vs):
                 sleep(1)
                 answer = call_ai(pokemons)
                 judge(target["name"], answer)
+            elif answer == "hint":
+                hint(target,hint_count)
+                hint_count = 1
+                is_player_turn = not is_player_turn
             elif len(answer) != 5:
                 print("回答は5文字で入力してください。")
                 is_player_turn = not is_player_turn
@@ -79,12 +85,16 @@ def main(poke_list,is_debug,is_vs):
           elif answer == "ai":
               count += 1
               judge(target["name"], call_ai(pokemons))
+          elif answer == "hint":
+              hint(target,hint_count)
+              hint_count = 1
           elif len(answer) != 5:
               print("回答は5文字で入力してください。")
           else:
               count += 1
               judge(target["name"], answer)
       print("\n{}手目で正解！".format(count))
+      return
 
 
 def guide():
@@ -107,6 +117,23 @@ def call_ai(pokemons):
     choiced = random.choice(pokemons)
     print(choiced[0])
     return choiced[0]
+
+def hint(target,hint_count):
+    """Display types of choiced pokemon.
+    ヒントを表示させる
+    Args:
+        target (pokemon): 正解のポケモン 
+        hint_count (int): ヒントが初めてかどうか
+    Returns:
+        str: ヒントの表示
+    """
+    if(hint_count == 0):
+        print("タイプ1は" + target["type_01"] + "です。")
+    else :
+        if target["type_02"] == "":
+             return print("タイプ1は" + target["type_01"] + "、タイプ2はありません。")
+        else :
+             return print("タイプ1は" + target["type_01"] + "、タイプ2は" + target["type_02"] + "です。")
 
 def judge(target, answer):
     """Judge if the answer is correct.
