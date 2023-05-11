@@ -63,6 +63,7 @@ def call_ai(pokemons):
         str: 回答
     """
     choiced = random.choice(pokemons)
+    print(choiced[0])
     return choiced[0]
 
 def judge(target, answer):
