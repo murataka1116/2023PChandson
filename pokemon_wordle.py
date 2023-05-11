@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+from time import sleep
 import colorama as cl
 import csv
 import random
 
 
-def main(poke_list,is_debug):
+def main(poke_list,is_debug,is_vs):
     """Main tasks.
 
     Args:
@@ -31,23 +32,59 @@ def main(poke_list,is_debug):
     print("ai: AIに回答させる。\n")
     print("quit: 終了\n")
     answer = ""
-    count = 0
-    while answer != target["name"]:
-        answer = input("> ")
-        if answer == "quit":
-            print("正解は{}でした。".format(target["name"]))
-            return
-        elif answer == "help":
-            guide()
-        elif answer == "ai":
-            count += 1
-            judge(target["name"], call_ai(pokemons))
-        elif len(answer) != 5:
-            print("回答は5文字で入力してください。")
-        else:
-            count += 1
+    if is_vs:
+        is_game_quit = False
+        is_player_turn = False
+        while answer != target["name"] and not is_game_quit:
+          is_player_turn = not is_player_turn
+          if is_player_turn:
+            print("\nプレイヤーのターンです。回答を入力してください")
+            answer = input("> ")
+            if answer == "quit":
+                print("正解は{}でした。".format(target["name"]))
+                is_game_quit = True
+            elif answer == "ai":
+                sleep(1)
+                answer = call_ai(pokemons)
+                judge(target["name"], answer)
+            elif len(answer) != 5:
+                print("回答は5文字で入力してください。")
+                is_player_turn = not is_player_turn
+            else:
+                judge(target["name"], answer)
+          else:
+            print("\nコンピューターのターンです")
+            sleep(1)
+            answer = call_ai(pokemons)
             judge(target["name"], answer)
-    print("\n{}手目で正解！".format(count))
+          
+        if is_game_quit:
+            return 
+        else :
+            if is_player_turn:
+              print("プレイヤーの勝利！")
+            else :
+              print("コンピュータの勝利！")
+            return
+    
+    else :
+      count = 0
+      while answer != target["name"]:
+          answer = input("> ")
+          if answer == "quit":
+              print("正解は{}でした。".format(target["name"]))
+              return
+          elif answer == "help":
+              guide()
+          elif answer == "ai":
+              count += 1
+              judge(target["name"], call_ai(pokemons))
+          elif len(answer) != 5:
+              print("回答は5文字で入力してください。")
+          else:
+              count += 1
+              judge(target["name"], answer)
+      print("\n{}手目で正解！".format(count))
 
 
 def guide():
@@ -125,6 +162,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="5文字のポケモンの名前を当てるゲームです！")
     parser.add_argument("list", type=str, help="ポケモンのリスト (csvファイルのパス)")
     parser.add_argument("--debug", action="store_true", help="デバッグモードで実行する")
+    parser.add_argument("--vs", action="store_true", help="コンピュータとの対戦モードで実行する")
     args = parser.parse_args()
-    main(args.list,args.debug)
+    main(args.list,args.debug,args.vs)
 
