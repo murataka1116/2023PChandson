@@ -30,14 +30,17 @@ def main(poke_list):
     answer = ""
     count = 0
     while answer != target["name"]:
-        count += 1
         answer = input("> ")
         if answer == "quit":
             print("正解は{}でした。".format(target["name"]))
             return
+        elif answer == "ai":
+            count += 1
+            judge(target["name"], call_ai(pokemons))
         elif len(answer) != 5:
             print("回答は5文字で入力してください。")
         else:
+            count += 1
             judge(target["name"], answer)
     print("\n{}手目で正解！".format(count))
 
@@ -51,6 +54,16 @@ def guide():
     print(cl.Fore.GREEN + "文字も位置も合っていたら緑色で、")
     print(cl.Fore.WHITE + "違っていたら白色の \"・\" で表示します。\n")
 
+def call_ai(pokemons):
+    """Make computer player to answer.
+    AIに回答させる。
+    Args:
+        poke_list (list): ポケモンのリスト
+    Returns:
+        str: 回答
+    """
+    choiced = random.choice(pokemons)
+    return choiced[0]
 
 def judge(target, answer):
     """Judge if the answer is correct.
